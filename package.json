@@ -1,0 +1,9 @@
+{
+  "name": "loggerly",
+  "version": "0.0.1",
+  "description": "Logging Framework",
+  "main": "src/main/javascript/loggerly.js",
+  "repository": "https://github.com/spearson23/loggerly.git",
+  "author": "Steven Pearson <spearson23@gmail.com>",
+  "license": "MIT"
+}
