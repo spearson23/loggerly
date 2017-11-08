@@ -3,7 +3,7 @@ import Loggerly from '../loggerly';
 
 class ConsoleLogger extends Logger {
   constructor(config) {
-    this.config = config;
+    super();
     this.name = config.name;
     this.level = config.level;
   }
@@ -21,7 +21,7 @@ export default class LoggerlyConsole {
 
   }
 
-  createLogger(config) {
+  getLogger(config) {
     return new ConsoleLogger(config);
   }
 }

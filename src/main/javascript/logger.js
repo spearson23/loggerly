@@ -1,6 +1,6 @@
 import Loggerly from './Loggerly';
 
-export class Logger {
+export default class Logger {
   constructor(config) {
     this.config = config;
   }

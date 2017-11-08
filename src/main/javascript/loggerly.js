@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import LoggerlyConsole from './frameworks/loggerly-console';
 
 export default class Loggerly {
 
@@ -84,7 +85,7 @@ export default class Loggerly {
     return name;
   }
 
-  static createLogger(name) {
+  static getLogger(name) {
     if (!Loggerly.initialized) {
       Loggerly.init();
     }
@@ -94,8 +95,8 @@ export default class Loggerly {
     if (Loggerly.loggers[name]) {
       return Loggerly.loggers[name];
     }
-    const loggerConfig = Object.extend({}, { name: name}, Loggerly.config.loggers['default'], Loggerly.config.loggers[name] || {});
-    const logger = Loggerly.loggers[name] = Loggerly.framework.createLogger(loggerConfig);
+    const loggerConfig = Object.assign({}, { name: name}, Loggerly.config.loggers['default'], Loggerly.config.loggers[name] || {});
+    const logger = Loggerly.loggers[name] = Loggerly.framework.getLogger(loggerConfig);
     return logger;
   }
 }
