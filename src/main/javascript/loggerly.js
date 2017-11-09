@@ -1,8 +1,9 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 import Utils from './utils/utils';
 import LoggerlyConsole from './frameworks/loggerly-console';
-
+import LoggerlyWinston from './frameworks/loggerly-winston';
+import LoggerlyBunyan from './frameworks/loggerly-bunyan';
 
 export default class Loggerly {
 
@@ -13,7 +14,7 @@ export default class Loggerly {
         return JSON.parse(string);
       }
     } catch(error) {
-      console.warn("Loggerly: Failed to load config file (" + filename + "), using default config.");
+      console.warn('Loggerly: Failed to load config file (' + filename + '), using default config.');
     }
   }
 
@@ -32,10 +33,11 @@ export default class Loggerly {
       return;
     }
     if (typeof config === 'string') {
-      return init(Loggerly._loadJson(config));
+      return Loggerly.init(Loggerly._loadJson(config));
     }
     if (!config) {
-      config = process.env[Loggerly.LOGGERLY_CONFIG_VARIABLE];
+      /* global process */
+      config = process && process.env && process.env[Loggerly.LOGGERLY_CONFIG_VARIABLE];
       if (config) {
         // Found config from environment var
         return Loggerly.init(config);
@@ -68,10 +70,11 @@ export default class Loggerly {
       }
       default: {
         try {
+          /* global require */
           const FrameworkClass = require('loggerly-' + Loggerly.config.framework);
           Loggerly.framework = new FrameworkClass(Loggerly.config);
           break;
-          } catch(error) {
+        } catch(error) {
           throw new Error('Loggerly: Unknown framework (' + Loggerly.config.framework + ')');
         }
       }
@@ -148,8 +151,8 @@ Loggerly.LevelNames = {
   off: Loggerly.OFF
 }
 
-Loggerly.LOGGERLY_CONFIG_VARIABLE = "LOGGERLY_CONFIG";
-Loggerly.LOGGERLY_DEFAULT_LEVEL = "LOGGERLY_DEFAULT_LEVEL";
+Loggerly.LOGGERLY_CONFIG_VARIABLE = 'LOGGERLY_CONFIG';
+Loggerly.LOGGERLY_DEFAULT_LEVEL = 'LOGGERLY_DEFAULT_LEVEL';
 
 Loggerly.DEFAULT_CONFIG = {
   framework: 'console',

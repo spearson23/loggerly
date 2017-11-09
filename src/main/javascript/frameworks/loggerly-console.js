@@ -18,7 +18,7 @@ class ConsoleLogger extends Logger {
 
 export default class LoggerlyConsole {
   init(config) {
-
+    this.config = config;
   }
 
   getLogger(config) {

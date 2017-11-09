@@ -5,5 +5,11 @@
   "main": "src/main/javascript/loggerly.js",
   "repository": "https://github.com/spearson23/loggerly.git",
   "author": "Steven Pearson <spearson23@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "flow-bin": "^0.59.0"
+  },
+  "dependencies": {
+    "jshint": "^2.9.5"
+  }
 }

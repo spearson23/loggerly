@@ -5,6 +5,7 @@ export default class Logger {
   constructor(config) {
     this.config = config;
   }
+  /* eslint no-unused-vars: "off" */
   _out(level, text) {
     // Must be implemented by sub-classes
   }
@@ -13,8 +14,8 @@ export default class Logger {
       if ((typeof first === 'object') && (first.raw) && (typeof first.length !== 'undefined') && (first.length === first.raw.length)) {
         let result = first[0];
         args.forEach((arg, i) => {
-            result += String(arg);
-            result += first[i+1];
+          result += String(arg);
+          result += first[i+1];
         });
         this._out(level, result);
       } else {
