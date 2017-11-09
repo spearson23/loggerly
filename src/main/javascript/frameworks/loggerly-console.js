@@ -7,11 +7,11 @@ class ConsoleLogger extends Logger {
     this.name = config.name;
     this.level = config.level;
   }
-  _out(level, ...args) {
+  _out(level, text) {
     if (this.level <= Loggerly.ERROR) {
-      console.error(this.name + ':', ...args);
+      console.error(this.name + ':', text);
     } else {
-      console.log(this.name + ':', ...args);
+      console.log(this.name + ':', text);
     }
   }
 }

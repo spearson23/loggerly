@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
+import Utils from './utils/utils';
 import LoggerlyConsole from './frameworks/loggerly-console';
+
 
 export default class Loggerly {
 
@@ -12,6 +14,16 @@ export default class Loggerly {
       }
     } catch(error) {
       console.warn("Loggerly: Failed to load config file (" + filename + "), using default config.");
+    }
+  }
+
+  static getLevel(level) {
+    if (Loggerly.LevelNames[level]) {
+      return Loggerly.LevelNames[level];
+    }
+    const num = parseInt(level);
+    if ((num >= Loggerly.ALL) && (num < Loggerly.NONE)) {
+      return num;
     }
   }
 
@@ -32,7 +44,14 @@ export default class Loggerly {
         return Loggerly.init({});
       }
     }
-    Loggerly.config = Object.assign({}, Loggerly.DEFAULT_CONFIG, config);
+    const envConfig = { loggers: { default: {} } };
+    if (process.env.LOGGERLY_DEFAULT_LEVEL) {
+      const level = Loggerly.getLevel(process.env.LOGGERLY_DEFAULT_LEVEL.toLowerCase());
+      if (typeof level !== 'undefined') {
+        envConfig.loggers.default.level = level;
+      }
+    }
+    Loggerly.config = Utils.deepAssign({}, Loggerly.DEFAULT_CONFIG, envConfig, config);
 
     switch (Loggerly.config.framework) {
       case 'bunyan': {
@@ -95,7 +114,7 @@ export default class Loggerly {
     if (Loggerly.loggers[name]) {
       return Loggerly.loggers[name];
     }
-    const loggerConfig = Object.assign({}, { name: name}, Loggerly.config.loggers['default'], Loggerly.config.loggers[name] || {});
+    const loggerConfig = Utils.deepAssign({}, { name: name}, Loggerly.config.loggers['default'], Loggerly.config.loggers[name] || {});
     const logger = Loggerly.loggers[name] = Loggerly.framework.getLogger(loggerConfig);
     return logger;
   }
@@ -130,6 +149,7 @@ Loggerly.LevelNames = {
 }
 
 Loggerly.LOGGERLY_CONFIG_VARIABLE = "LOGGERLY_CONFIG";
+Loggerly.LOGGERLY_DEFAULT_LEVEL = "LOGGERLY_DEFAULT_LEVEL";
 
 Loggerly.DEFAULT_CONFIG = {
   framework: 'console',

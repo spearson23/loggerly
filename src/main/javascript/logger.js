@@ -1,15 +1,25 @@
 import Loggerly from './Loggerly';
+import util from 'util';
 
 export default class Logger {
   constructor(config) {
     this.config = config;
   }
-  _out(level, ...args) {
+  _out(level, text) {
     // Must be implemented by sub-classes
   }
-  out(level, ...args) {
-    if (this.level >= level) {
-      this._out(level, ...args);
+  out(level, first, ...args) {
+    if (this.level <= level) {
+      if ((typeof first === 'object') && (first.raw) && (typeof first.length !== 'undefined') && (first.length === first.raw.length)) {
+        let result = first[0];
+        args.forEach((arg, i) => {
+            result += String(arg);
+            result += first[i+1];
+        });
+        this._out(level, result);
+      } else {
+        this._out(level, util.format(first, ...args));
+      }
     }
   }
   fatal(...args) {
