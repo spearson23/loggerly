@@ -1,15 +1,39 @@
 {
   "name": "loggerly",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Logging Framework",
-  "main": "src/main/javascript/loggerly.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/spearson23/loggerly.git",
   "author": "Steven Pearson <spearson23@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "build": "gulp"
+  },
+  "files": [
+    "dist"
+  ],
+  "jest": {
+    "testRegex": ".*.test.js$",
+    "roots": [
+      "src"
+    ]
+  },
   "devDependencies": {
-    "flow-bin": "^0.59.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "jest": "^23.1.0",
+    "jshint": "^2.9.5"
   },
   "dependencies": {
-    "jshint": "^2.9.5"
+    "configly": "file:///Users/spearson/Projects/configly",
+    "lodash.foreach": "^4.5.0",
+    "lodash.map": "^4.6.0",
+    "lodash.merge": "^4.6.1",
+    "util-inspect": "^0.1.8"
   }
 }
